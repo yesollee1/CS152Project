@@ -2,10 +2,10 @@ grammar Expr;
 
 prog: expr EOF;
 
-expr: left=expr op=('*'|'/') right=expr   #infixExpr
+expr: '(' expr ')'                        #parensExpr
+    | left=expr op=('*'|'/') right=expr   #infixExpr
     | left=expr op=('+'|'-') right=expr   #infixExpr
     | INT                                 #numberExpr
-    | '(' expr ')'                        #parensExpr
     ;
 
 OP_ADD: '+';
