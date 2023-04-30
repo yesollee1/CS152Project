@@ -19,15 +19,15 @@ class Calculator:
 
         #number buttons
         button_0 = tkinter.Button(self.canvas, text='0', command=lambda: self.update_equation("0"), width=5, height=3)
-        button_1 = tkinter.Button(self.canvas, text='1', width=5, height=3)
-        button_2 = tkinter.Button(self.canvas, text='2', width=5, height=3)
-        button_3 = tkinter.Button(self.canvas, text='3', width=5, height=3)
-        button_4 = tkinter.Button(self.canvas, text='4', width=5, height=3)
-        button_5 = tkinter.Button(self.canvas, text='5', width=5, height=3)
-        button_6 = tkinter.Button(self.canvas, text='6', width=5, height=3)
-        button_7 = tkinter.Button(self.canvas, text='7', width=5, height=3)
-        button_8 = tkinter.Button(self.canvas, text='8', width=5, height=3)
-        button_9 = tkinter.Button(self.canvas, text='9', width=5, height=3)
+        button_1 = tkinter.Button(self.canvas, text='1', command=lambda: self.update_equation("1"), width=5, height=3)
+        button_2 = tkinter.Button(self.canvas, text='2', command=lambda: self.update_equation("2"), width=5, height=3)
+        button_3 = tkinter.Button(self.canvas, text='3', command=lambda: self.update_equation("3"), width=5, height=3)
+        button_4 = tkinter.Button(self.canvas, text='4', command=lambda: self.update_equation("4"), width=5, height=3)
+        button_5 = tkinter.Button(self.canvas, text='5', command=lambda: self.update_equation("5"), width=5, height=3)
+        button_6 = tkinter.Button(self.canvas, text='6', command=lambda: self.update_equation("6"), width=5, height=3)
+        button_7 = tkinter.Button(self.canvas, text='7', command=lambda: self.update_equation("7"), width=5, height=3)
+        button_8 = tkinter.Button(self.canvas, text='8', command=lambda: self.update_equation("8"), width=5, height=3)
+        button_9 = tkinter.Button(self.canvas, text='9', command=lambda: self.update_equation("9"), width=5, height=3)
 
         button_0.grid(column=2, row=0)
         button_1.grid(column=0, row=3)
@@ -41,12 +41,12 @@ class Calculator:
         button_9.grid(column=2, row=1)
 
         # operation buttons
-        button_add = tkinter.Button(self.canvas, text='+', width=5, height=3)
-        button_sub = tkinter.Button(self.canvas, text='-', width=5, height=3)
-        button_mult = tkinter.Button(self.canvas, text='*', width=5, height=3)
-        button_div = tkinter.Button(self.canvas, text='/', width=5, height=3)
-        button_result = tkinter.Button(self.canvas, text='=', width=5,height=3)
-        button_clear = tkinter.Button(self.canvas, text='C', width=5,height=3)
+        button_add = tkinter.Button(self.canvas, text='+', command=lambda: self.update_equation(" + "), width=5, height=3)
+        button_sub = tkinter.Button(self.canvas, text='-', command=lambda: self.update_equation(" - "), width=5, height=3)
+        button_mult = tkinter.Button(self.canvas, text='*', command=lambda: self.update_equation(" * "), width=5, height=3)
+        button_div = tkinter.Button(self.canvas, text='/', command=lambda: self.update_equation(" / "), width=5, height=3)
+        button_result = tkinter.Button(self.canvas, text='=', command=lambda: self.submit_equation(), width=5,height=3)
+        button_clear = tkinter.Button(self.canvas, text='C', command=lambda: self.clear_equation(), width=5,height=3)
 
         button_add.grid(column=3, row=3)
         button_sub.grid(column=3, row=2)
@@ -60,6 +60,15 @@ class Calculator:
     def update_equation(self, value):
         self.equation += value
         self.display.config(text=self.equation)
+        pass
+
+    def clear_equation(self):
+        self.equation = ""
+        self.display.config(text=self.equation)
+
+    def submit_equation(self):
+        #pass to parser
+        #update display with result
         pass
 
 def main():
