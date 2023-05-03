@@ -19,7 +19,9 @@ class MyExprVisitor(ExprVisitor):
         a = self.stack.pop()
         c = None
 
-        if ctx.OP_MUL():
+        if ctx.OP_EXP():
+            c = a ** b
+        elif ctx.OP_MUL():
             c = a * b
         elif ctx.OP_DIV():
             c = a / b

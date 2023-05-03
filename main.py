@@ -6,7 +6,7 @@ from MyExprVisitor import MyExprVisitor
 
 
 def main(argv):
-    input = InputStream("(10 - 000) * 2 / 4")
+    input = InputStream("4 ^ 0")
 
     lexer = ExprLexer(input)
     stream = CommonTokenStream(lexer)

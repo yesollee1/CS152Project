@@ -5,6 +5,11 @@
 
 """
 import tkinter
+import sys
+from antlr4 import *
+from ExprLexer import ExprLexer
+from ExprParser import ExprParser
+from MyExprVisitor import MyExprVisitor
 
 class Calculator:
 
@@ -68,7 +73,17 @@ class Calculator:
 
     def submit_equation(self):
         #pass to parser
+        input_equation = InputStream(self.equation)
+
+        lexer = ExprLexer(input_equation)
+        stream = CommonTokenStream(lexer)
+        parser = ExprParser(stream)
+        tree = parser.prog()
+
+        res = MyExprVisitor().visitProg(tree)  # Evaluate the expression
+
         #update display with result
+        self.display.config(text=res)
         pass
 
 def main():
