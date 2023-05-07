@@ -23,8 +23,10 @@ class Calculator:
 
         self.canvas = tkinter.Canvas(parent, width=200, height=300)
 
-        self.display = tkinter.Label(parent, text=self.equation, height=5)
+        self.display = tkinter.Label(parent, text=self.equation, height=3)
+        self.intermediate_display = tkinter.Label(parent, text="", height=3)
         self.display.grid()
+        self.intermediate_display.grid()
 
         #number buttons
         button_0 = tkinter.Button(self.canvas, text='0', command=lambda: self.update_number("0"), width=5, height=3)
@@ -66,6 +68,21 @@ class Calculator:
         
         self.canvas.grid()
 
+    def calculate(self):
+        # strip any extra operators
+        stripped = re.sub(r"\D+$", "", self.equation)
+
+        # pass to parser
+        input_equation = InputStream(stripped)
+
+        lexer = ExprLexer(input_equation)
+        stream = CommonTokenStream(lexer)
+        parser = ExprParser(stream)
+        tree = parser.prog()
+
+        self.result = str(MyExprVisitor().visitProg(tree))  # Evaluate the expression
+        pass
+
     def update_number(self, value):
         if self.just_calculated:
             self.equation = ""
@@ -76,6 +93,7 @@ class Calculator:
         pass
 
     def update_operator(self, value):
+        self.calculate()
         # if self.cleared:
         #     self.equation = "0"
         # elif self.just_calculated:
@@ -84,30 +102,21 @@ class Calculator:
         self.cleared = False
         self.equation += value
         self.display.config(text=self.equation)
+        self.intermediate_display.config(text=self.result)
         pass
 
     def clear_equation(self):
         self.equation = "0"
         self.display.config(text=self.equation)
+        self.intermediate_display.config(text="")
         self.just_calculated = True
         self.cleared = True
 
     def submit_equation(self):
-        #strip any extra operators
-        stripped = re.sub(r"\D+$", "", self.equation)
-        
-        #pass to parser
-        input_equation = InputStream(stripped)
-
-        lexer = ExprLexer(input_equation)
-        stream = CommonTokenStream(lexer)
-        parser = ExprParser(stream)
-        tree = parser.prog()
-
-        self.result = str(MyExprVisitor().visitProg(tree))  # Evaluate the expression
+        self.calculate()
 
         #update display with result
-        self.display.config(text=self.result)
+        self.intermediate_display.config(text=self.result)
         self.just_calculated = True
         self.cleared = False
         self.equation = "0"
