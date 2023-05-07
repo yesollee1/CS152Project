@@ -10,6 +10,7 @@ from antlr4 import *
 from ExprLexer import ExprLexer
 from ExprParser import ExprParser
 from MyExprVisitor import MyExprVisitor
+import re
 
 class Calculator:
 
@@ -92,8 +93,11 @@ class Calculator:
         self.cleared = True
 
     def submit_equation(self):
+        #strip any extra operators
+        stripped = re.sub(r"\D+$", "", self.equation)
+        
         #pass to parser
-        input_equation = InputStream(self.equation)
+        input_equation = InputStream(stripped)
 
         lexer = ExprLexer(input_equation)
         stream = CommonTokenStream(lexer)
