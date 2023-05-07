@@ -14,7 +14,7 @@ from MyExprVisitor import MyExprVisitor
 class Calculator:
 
     def __init__(self, parent):
-        self.equation = ""
+        self.equation = "0"
         self.just_calculated = False
         self.result = ""
         self.cleared = True
@@ -68,23 +68,27 @@ class Calculator:
     def update_number(self, value):
         if self.just_calculated:
             self.equation = ""
+        self.just_calculated = False
+        self.cleared = False
         self.equation += value
         self.display.config(text=self.equation)
         pass
 
     def update_operator(self, value):
-        if self.cleared:
-            self.equation = "0"
-        elif self.just_calculated:
-            self.equation = self.result
+        # if self.cleared:
+        #     self.equation = "0"
+        # elif self.just_calculated:
+        #     self.equation = self.result
         self.just_calculated = False
+        self.cleared = False
         self.equation += value
         self.display.config(text=self.equation)
         pass
 
     def clear_equation(self):
-        self.equation = ""
+        self.equation = "0"
         self.display.config(text=self.equation)
+        self.just_calculated = True
         self.cleared = True
 
     def submit_equation(self):
@@ -102,6 +106,7 @@ class Calculator:
         self.display.config(text=self.result)
         self.just_calculated = True
         self.cleared = False
+        self.equation = "0"
         pass
 
 def main():
