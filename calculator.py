@@ -15,6 +15,9 @@ class Calculator:
 
     def __init__(self, parent):
         self.equation = ""
+        self.just_calculated = False
+        self.result = ""
+        self.cleared = True
         parent.title("Calculator")
 
         self.canvas = tkinter.Canvas(parent, width=200, height=300)
@@ -23,16 +26,16 @@ class Calculator:
         self.display.grid()
 
         #number buttons
-        button_0 = tkinter.Button(self.canvas, text='0', command=lambda: self.update_equation("0"), width=5, height=3)
-        button_1 = tkinter.Button(self.canvas, text='1', command=lambda: self.update_equation("1"), width=5, height=3)
-        button_2 = tkinter.Button(self.canvas, text='2', command=lambda: self.update_equation("2"), width=5, height=3)
-        button_3 = tkinter.Button(self.canvas, text='3', command=lambda: self.update_equation("3"), width=5, height=3)
-        button_4 = tkinter.Button(self.canvas, text='4', command=lambda: self.update_equation("4"), width=5, height=3)
-        button_5 = tkinter.Button(self.canvas, text='5', command=lambda: self.update_equation("5"), width=5, height=3)
-        button_6 = tkinter.Button(self.canvas, text='6', command=lambda: self.update_equation("6"), width=5, height=3)
-        button_7 = tkinter.Button(self.canvas, text='7', command=lambda: self.update_equation("7"), width=5, height=3)
-        button_8 = tkinter.Button(self.canvas, text='8', command=lambda: self.update_equation("8"), width=5, height=3)
-        button_9 = tkinter.Button(self.canvas, text='9', command=lambda: self.update_equation("9"), width=5, height=3)
+        button_0 = tkinter.Button(self.canvas, text='0', command=lambda: self.update_number("0"), width=5, height=3)
+        button_1 = tkinter.Button(self.canvas, text='1', command=lambda: self.update_number("1"), width=5, height=3)
+        button_2 = tkinter.Button(self.canvas, text='2', command=lambda: self.update_number("2"), width=5, height=3)
+        button_3 = tkinter.Button(self.canvas, text='3', command=lambda: self.update_number("3"), width=5, height=3)
+        button_4 = tkinter.Button(self.canvas, text='4', command=lambda: self.update_number("4"), width=5, height=3)
+        button_5 = tkinter.Button(self.canvas, text='5', command=lambda: self.update_number("5"), width=5, height=3)
+        button_6 = tkinter.Button(self.canvas, text='6', command=lambda: self.update_number("6"), width=5, height=3)
+        button_7 = tkinter.Button(self.canvas, text='7', command=lambda: self.update_number("7"), width=5, height=3)
+        button_8 = tkinter.Button(self.canvas, text='8', command=lambda: self.update_number("8"), width=5, height=3)
+        button_9 = tkinter.Button(self.canvas, text='9', command=lambda: self.update_number("9"), width=5, height=3)
 
         button_0.grid(column=2, row=0)
         button_1.grid(column=0, row=3)
@@ -46,10 +49,10 @@ class Calculator:
         button_9.grid(column=2, row=1)
 
         # operation buttons
-        button_add = tkinter.Button(self.canvas, text='+', command=lambda: self.update_equation(" + "), width=5, height=3)
-        button_sub = tkinter.Button(self.canvas, text='-', command=lambda: self.update_equation(" - "), width=5, height=3)
-        button_mult = tkinter.Button(self.canvas, text='*', command=lambda: self.update_equation(" * "), width=5, height=3)
-        button_div = tkinter.Button(self.canvas, text='/', command=lambda: self.update_equation(" / "), width=5, height=3)
+        button_add = tkinter.Button(self.canvas, text='+', command=lambda: self.update_operator(" + "), width=5, height=3)
+        button_sub = tkinter.Button(self.canvas, text='-', command=lambda: self.update_operator(" - "), width=5, height=3)
+        button_mult = tkinter.Button(self.canvas, text='*', command=lambda: self.update_operator(" * "), width=5, height=3)
+        button_div = tkinter.Button(self.canvas, text='/', command=lambda: self.update_operator(" / "), width=5, height=3)
         button_result = tkinter.Button(self.canvas, text='=', command=lambda: self.submit_equation(), width=5,height=3)
         button_clear = tkinter.Button(self.canvas, text='C', command=lambda: self.clear_equation(), width=5,height=3)
 
@@ -62,7 +65,19 @@ class Calculator:
         
         self.canvas.grid()
 
-    def update_equation(self, value):
+    def update_number(self, value):
+        if self.just_calculated:
+            self.equation = ""
+        self.equation += value
+        self.display.config(text=self.equation)
+        pass
+
+    def update_operator(self, value):
+        if self.cleared:
+            self.equation = "0"
+        elif self.just_calculated:
+            self.equation = self.result
+        self.just_calculated = False
         self.equation += value
         self.display.config(text=self.equation)
         pass
@@ -70,6 +85,7 @@ class Calculator:
     def clear_equation(self):
         self.equation = ""
         self.display.config(text=self.equation)
+        self.cleared = True
 
     def submit_equation(self):
         #pass to parser
@@ -80,10 +96,12 @@ class Calculator:
         parser = ExprParser(stream)
         tree = parser.prog()
 
-        res = MyExprVisitor().visitProg(tree)  # Evaluate the expression
+        self.result = str(MyExprVisitor().visitProg(tree))  # Evaluate the expression
 
         #update display with result
-        self.display.config(text=res)
+        self.display.config(text=self.result)
+        self.just_calculated = True
+        self.cleared = False
         pass
 
 def main():
