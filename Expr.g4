@@ -6,6 +6,7 @@ expr: '(' expr ')'                        #parensExpr
     | <assoc=right> left=expr op='^' right=expr         #infixExpr
     | left=expr op=('*'|'/') right=expr   #infixExpr
     | left=expr op=('+'|'-') right=expr   #infixExpr
+    | '-' INT                             #negNumberExpr
     | INT                                 #numberExpr
     ;
 

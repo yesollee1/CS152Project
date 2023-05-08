@@ -29,5 +29,10 @@ class ExprVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ExprParser#negNumberExpr.
+    def visitNegNumberExpr(self, ctx:ExprParser.NegNumberExprContext):
+        return self.visitChildren(ctx)
+
+
 
 del ExprParser

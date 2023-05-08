@@ -55,3 +55,8 @@ class MyExprVisitor(ExprVisitor):
     # Visit a parse tree produced by ExprParser#parensExpr.
     def visitParensExpr(self, ctx:ExprParser.ParensExprContext):
         return self.visit(ctx.expr())  # Since enclosed by parents, just visit expr
+
+    def visitNegNumberExpr(self, ctx: ExprParser.NegNumberExprContext):
+        c = -int(str(ctx.INT()))  # Found a negative number, insert its negative value to stack
+        self.stack.append(c)
+        return c

@@ -44,5 +44,14 @@ class ExprListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ExprParser#negNumberExpr.
+    def enterNegNumberExpr(self, ctx:ExprParser.NegNumberExprContext):
+        pass
+
+    # Exit a parse tree produced by ExprParser#negNumberExpr.
+    def exitNegNumberExpr(self, ctx:ExprParser.NegNumberExprContext):
+        pass
+
+
 
 del ExprParser
