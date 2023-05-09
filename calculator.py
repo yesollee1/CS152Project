@@ -15,7 +15,7 @@ import re
 class Calculator:
 
     def __init__(self, parent):
-        self.equation = "0"
+        self.equation = ""
         self.just_calculated = False
         self.result = ""
         self.cleared = True
@@ -40,7 +40,7 @@ class Calculator:
         button_8 = tkinter.Button(self.canvas, text='8', command=lambda: self.update_number("8"), width=5, height=3)
         button_9 = tkinter.Button(self.canvas, text='9', command=lambda: self.update_number("9"), width=5, height=3)
 
-        button_0.grid(column=2, row=0)
+        button_0.grid(column=0, row=4)
         button_1.grid(column=0, row=3)
         button_2.grid(column=1, row=3)
         button_3.grid(column=2, row=3)
@@ -56,15 +56,20 @@ class Calculator:
         button_sub = tkinter.Button(self.canvas, text='-', command=lambda: self.update_operator(" - "), width=5, height=3)
         button_mult = tkinter.Button(self.canvas, text='*', command=lambda: self.update_operator(" * "), width=5, height=3)
         button_div = tkinter.Button(self.canvas, text='/', command=lambda: self.update_operator(" / "), width=5, height=3)
-        button_result = tkinter.Button(self.canvas, text='=', command=lambda: self.submit_equation(), width=5,height=3)
-        button_clear = tkinter.Button(self.canvas, text='C', command=lambda: self.clear_equation(), width=5,height=3)
+        button_result = tkinter.Button(self.canvas, text='=', command=lambda: self.submit_equation(), width=10, height=3)
+        button_clear = tkinter.Button(self.canvas, text='C', command=lambda: self.clear_equation(), width=5, height=3)
+        button_open_parens = tkinter.Button(self.canvas, text="(", command=lambda: self.update_number("("), width=5, height=3)
+        button_close_parens = tkinter.Button(self.canvas, text=")", command=lambda: self.update_number(")"), width=5, height=3)
+
 
         button_add.grid(column=3, row=3)
         button_sub.grid(column=3, row=2)
         button_mult.grid(column=3, row=1)
         button_div.grid(column=3, row=0)
-        button_result.grid(column=0, row=0)
-        button_clear.grid(column=1, row=0)
+        button_result.grid(column=1, row=4, columnspan=3, sticky=tkinter.W+tkinter.E)
+        button_clear.grid(column=0, row=0)
+        button_open_parens.grid(column=1, row=0)
+        button_close_parens.grid(column=2, row=0)
         
         self.canvas.grid()
 

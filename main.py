@@ -6,7 +6,7 @@ from MyExprVisitor import MyExprVisitor
 
 
 def main(argv):
-    input = InputStream("0 - 4 - - 5")
+    input = InputStream("(9 - 3) / (0 + 2)")
 
     lexer = ExprLexer(input)
     stream = CommonTokenStream(lexer)
